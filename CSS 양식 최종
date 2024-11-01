@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .divider {
+            border-top: 1px solid #000;
+            margin: 30px 0;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .author-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .bookmark-btn {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="divider"></div>
+        
+        <h1 class="title">
+            퇴고의 힘 : 다듬을수록 선명해지는 건 이야기만이 아니다
+        </h1>
+        
+        <div class="meta">
+            <span class="author">김지원</span>
+            <span class="category">B</span>
+            <span class="date">2023.07.15</span>
+        </div>
+        
+        <div class="author-info">
+            <img src="profile-placeholder.jpg" alt="프로필 이미지" class="profile-img">
+            <span class="author-name">롱블랙 프렌즈 B</span>
+        </div>
+        
+        <div class="content">
+            <p>'백지는 고쳐 쓸 수 없다.' 일단 시작하는 게 중요하다는 말이죠. 이번 주 베르나르 베르베르 인터뷰 노트에서, 베르베르가 한 이 말을 가슴에 품고 일했어요.</p>
+            <br>
+            <p>자, 그런데 일단 백지를 다 채운 다음엔 무얼 해야 할까요? 퇴고입니다. 제가 생각하기에 글쓰기는 퇴고에서, 비로소 시작합니다.</p>
+            <br>
+            <p>글 쓰는 사람에게 필요한 것은 글 쓰는 법이 아니라, 퇴고하는 법입니다. 소설가든 에디터든, 기획자든, 디자이너든 누구나 말이죠. 김지원 기자 역시 제 말에 동의한다며 이 책을 롱블랙 피플과 나누고 싶다고 했어요. 바로 『퇴고의 힘』.</p>
+        </div>
+    </div>
+    
+    <button class="bookmark-btn">🔖</button>
+</body>
+</html>
