@@ -1,0 +1,114 @@
+주어진 CSS와 HTML 구조를 기반으로 통합된 HTML 문서에 `css` 코드를 추가하고, '금값, 올들어 33% 치솟아… 내년 3000달러 넘을 수도'에 관한 기사의 내용을 넣어 정리해 드리겠습니다.
+
+아래는 CSS와 HTML을 통합한 예시 코드입니다:
+
+```html
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .divider {
+            border-top: 1px solid #000;
+            margin: 30px 0;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .author-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .bookmark-btn {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="divider"></div>
+        
+        <h1 class="title">
+            금값, 올들어 33% 치솟아… 내년 3000달러 넘을 수도
+        </h1>
+        
+        <div class="meta">
+            <span class="author">신아형 기자</span>
+            <span class="category">금융/제태크</span>
+            <span class="date">2024.10.28</span>
+        </div>
+        
+        <div class="author-info">
+            <img src="https://dimg.donga.com/wps/NEWS/IMAGE/2024/10/28/130313882.1.jpg" alt="프로필 이미지" class="profile-img">
+            <span class="author-name">동아일보 경제부 기자</span>
+        </div>
+        
+        <div class="content">
+            <p>국제 금값이 ‘역사적 고점’을 연일 경신하며 끝없이 오르고 있다. 주요국 중앙은행들의 금리 인하와 미국 대선, 지정학적 긴장 등이 전통 안전자산인 금에 대한 수요를 부추기고 있다는 분석이다. 일각에서는 내년에도 ‘골드 랠리’가 지속되면서 온스당 3000달러를 넘을 수 있다는 전망까지 나온다.</p>
+            <br>
+            <p>● 금 올 들어 33% 상승… 은도 40%↑</p>
+            <p>한국거래소에 따르면 28일 금 1kg 현물의 g당 가격은 전 거래일보다 0.77% 오른 12만9190원에 마감했다. 순금 한 돈(3.75g)의 가격은 50만 원을 넘어섰다. 미국 뉴욕상품거래소(COMEX)에서 12월 인도분 금 선물 가격은 25일 종가 기준 온스당 2754.60달러까지 올랐다. 지난달 온스당 2600달러를 돌파한 데 이어 이달 2700달러를 넘어 사상 최고가 행진을 이어가고 있다. 금 선물 가격은 올 들어 약 33% 치솟았다.</p>
+            <br>
+            <p>● 내년에도 ‘골드 랠리’… 3000달러 돌파 가능성</p>
+            <p>시장에서는 지난달 미국 연방준비제도(Fed·연준)의 빅컷(기준금리 0.5%포인트 인하)을 시작으로 금리 인하 사이클이 본격화되면서 시장에 유동성이 풍부해진 것이 금에 대한 수요 급증에 영향을 미친 것으로 풀이한다.</p>
+            <p>다음 달 5일 치러지는 미국 대선에서 도널드 트럼프 공화당 후보의 당선 가능성이 높아지는 것 또한 금값 상승 압력으로 작용하고 있다.</p>
+        </div>
+    </div>
+    
+</body>
+</html>
+
