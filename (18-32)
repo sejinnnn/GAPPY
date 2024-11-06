@@ -18,6 +18,7 @@ export default [
         tags: ['사회'],
         tags2: ['법원 검찰'],
         tags3: ['비판']
+        tags4: ['판례 수집가']
     },
 
 {
@@ -56,6 +57,7 @@ export default [
         tags: ['사회'],
         tags2: ['법원 검찰'],
         tags3: ['비판']
+        tags4: ['판례 수집가']
     },
 
         id: 20 ,
@@ -77,6 +79,7 @@ export default [
         tags: ['사회'],
         tags2: ['교육입시']
         tags3: ['낙관']
+        tags4: ['백년 통찰가']
     },
   {
       id: 21,
@@ -97,6 +100,7 @@ export default [
     tags: ['사회'],
     tags2: ['교육입시'],
     tags3: ['균형']
+    tags4: ['백년 통찰가']
     },
 {
     id: 22,
@@ -118,6 +122,8 @@ export default [
     tags: ['사회'],
     tags2: ['노동', '교육입시'],
     tags3: ['논쟁']
+    tags4: ['일터 지킴이']
+    
 }
 {
     id: 23,
@@ -141,6 +147,7 @@ export default [
     tags: ['사회'],
     tags2: ['노동', '젠더'],
     tags3: ['균형']
+    tags4: ['일터 지킴이']
 }
 {
     id: 24,
@@ -167,6 +174,7 @@ export default [
     tags: ['사회'],
     tags2: ['보건복지'],
     tags3: ['비판']
+    tags4: ['삶의 질 설계자']    
 }
 {
     id: 25,
@@ -190,6 +198,7 @@ export default [
     tags: ['사회'],
     tags2: ['보건복지'],
     tags3: ['비판']
+    tags4: ['삶의 질 설계자']
 }
 {
     id: 26,
@@ -218,6 +227,7 @@ export default [
     tags: ['사회'],
     tags2: ['젠더'],
     tags3: ['균형']
+    tags4: ['젠더 감수성 만렙']
 }
   {
     id: 27,
@@ -236,6 +246,7 @@ export default [
     tags: ['사회'],
     tags2: ['젠더', '법원 검찰'],
     tags3: ['비판']
+    tags4: ['젠더 감수성 만렙']
 }
 {
     id: 28,
@@ -255,6 +266,7 @@ export default [
     tags: ['경제'],
     tags2: ['경제일반'],
     tags3: ['균형']
+    tags4: ['경제 분석가']
 }
 {
     id: 29,
@@ -276,8 +288,9 @@ export default [
     iconimgUrl:
     date: ['2024-11-01']
     tags: ['사회'],
-    tags2: ['교육'],
+    tags2: ['교육', '보건복지'],
     tags3: ['비판']
+    tags4: ['백년 통찰가']
 }
 
 
@@ -300,6 +313,7 @@ export default [
     tags: ['사회'],
     tags2: ['사회일반'],
     tags3: ['균형']
+    tags4: ['시사 마스터']
 }
 {
     id: 31,
@@ -319,6 +333,7 @@ export default [
     tags: ['문화'],
     tags2: ['없음'],
     tags3: ['낙관']
+    tags4: ['삶의 향유자']
 }
 
 {
@@ -341,5 +356,6 @@ export default [
     tags: ['문화'],
     tags2: ['없음'],
     tags3: ['균형']
+    tags4: ['삶의 향유자']
 }
 
