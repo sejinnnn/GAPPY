@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024 경제활동인구조사</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #fdf6df;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            overflow-x: hidden; /* 가로 스크롤 방지 */
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(to right, #FFD700, #FFA500);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        .page-indicator {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .indicator-dot {
+            width: 12px;
+            height: 12px;
+            background: #ddd;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator-dot.active {
+            background: #FFD700;
+            transform: scale(1.3);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s forwards;
+        }
+
+        .top-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(to right, #FFD700, #FFA500);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .government-logo {
+            width: 180px;
+            height: 60px;
+            background: #f8f8f8;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .question-group {
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards 0.3s;
+        }
+
+        .question-label {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .required {
+            color: #ff4444;
+            margin-left: 4px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            border-color: #FFD700;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+        }
+
+        .grid-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards 0.6s;
+        }
+
+        .grid-table th,
+        .grid-table td {
+            padding: 15px;
+            border: 1px solid #eee;
+            text-align: left;
+            font-size: 15px;
+        }
+
+        .grid-table th {
+            background: #f8f8f8;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .grid-table tr:hover {
+            background-color: #fafafa;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .radio-input {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            margin-right: 8px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .radio-input:checked {
+            border-color: #FFD700;
+        }
+
+        .radio-input:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: #FFD700;
+            border-radius: 50%;
+            animation: radioCheck 0.2s forwards;
+        }
+
+        #rest-option {
+            color: #2196F3;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #rest-option:hover {
+            background: rgba(33, 150, 243, 0.1);
+        }
+
+        .warning-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        #comments-section {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .comment-box {
+          display: flex;
+          align-items: flex-start;
+          width: 50%;
+          background-color: rgba(255, 255, 255, 0.8);
+          border-radius: 10px;
+          padding: 20px;
+          margin: 50px auto;
+          opacity: 0;
+          transform: translateY(100px);
+          transition: all 0.7s ease-out;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+          .comment-box.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    
+
+          .article-intro {
+            text-align: center;
+            padding: 60px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s forwards;
+        }
+
+          .article-title {
+            font-size: 2.8em;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #333, #666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        } 
+
+          .article-subtitle {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+          .article-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            font-size: 0.9em;
+            color: #888;
+        }
+
+          .article-content {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+          .article-content p {
+            margin-bottom: 20px;
+        }
+
+          .highlight-box {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 4px solid #FFD700;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+
+.stats-container {
+    display: flex;
+    justify-content: space-around;
+    margin: 40px 0;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 20px;
+}
+
+.stat-number {
+    font-size: 2em;
+    font-weight: 700;
+    color: #FFD700;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    color: #666;
+    font-size: 0.9em;
+}
+
+/* 구분선 스타일 */
+.divider {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(to right, #FFD700, #FFA500);
+    margin: 30px auto;
+    border-radius: 2px;
+}
+.sticky-container {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .articles-container {
+            position: relative;
+            width: 800px;
+            height: 400px;
+            margin: 0 auto;
+        }
+
+        .article {
+            position: absolute;
+            width: 100%;
+            height: auto;
+            opacity: 0;
+            transform: translateY(20px) rotate(-2deg);
+            transition: all 0.8s ease-out;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .article img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            display: block;
+        }
+
+        .article:nth-child(1) { transform: translateY(20px) rotate(-2deg); }
+        .article:nth-child(2) { transform: translateY(40px) rotate(1deg); }
+        .article:nth-child(3) { transform: translateY(60px) rotate(-1deg); }
+        .article:nth-child(4) { transform: translateY(80px) rotate(2deg); }
+
+        .article.visible {
+            opacity: 1;
+            transform: translateY(0) rotate(0deg);
+        }
+
+        .article.visible:nth-child(1) { transform: translate(-5%, -5%) rotate(-5deg); }
+        .article.visible:nth-child(2) { transform: translate(2%, -2%) rotate(3deg); }
+        .article.visible:nth-child(3) { transform: translate(-3%, 1%) rotate(-2deg); }
+        .article.visible:nth-child(4) { transform: translate(4%, 4%) rotate(4deg); }
+
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes radioCheck {
+            from {
+                transform: translate(-50%, -50%) scale(0);
+            }
+            to {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        #next-section {
+            margin-top: 30px;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar"></div>
+    <div class="page-indicator">
+        <div class="indicator-dot active"></div>
+        <div class="indicator-dot"></div>
+        <div class="indicator-dot"></div>
+    </div>
+
+    <div class="container">
+        <div class="top-bar"></div>
+        <div class="header">
+            <div class="government-logo">통계청</div>
+            <h1>2024 경제활동인구조사</h1>
+            <p class="subtitle">
+                이 조사는 매월 국민의 취업, 실업 등과 같은 경제적 특성을 조사하여 일자리 지원 등 고용정책을 위한 기초자료로 활용됩니다.
+                응답하신 내용은 통계법 제33조에 의해 철저히 보호되고 있으며, 통계작성 목적으로만 사용됩니다.
+            </p>
+        </div>
+
+        <div class="question-group">
+            <label class="question-label">
+                당신의 이름을 입력해주세요<span class="required">*</span>
+            </label>
+            <input type="text" class="input-field" placeholder="이름을 입력하세요" required>
+        </div>
+
+        <div class="question-group">
+            <label class="question-label">당신은 '쉬는 청년'인가요?</label>
+            <p class="warning-text">
+                ⚠️ '지난주'는 '일요일~토요일'의 지난 1주를 말합니다.
+            </p>
+
+            <table class="grid-table">
+                <thead>
+                    <tr>
+                        <th width="60%">일에 관한 사항</th>
+                        <th width="20%">예</th>
+                        <th width="20%">아니오</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>지난주에 수입을 목적으로 1시간 이상 일하였습니까?</td>
+                        <td>
+                            <label class="radio-label">
+                                <input type="radio" name="work1" class="radio-input">
+                                <span>예</span>
+                            </label>
+                        </td>
+                        <td>
+                            <label class="radio-label">
+                                <input type="radio" name="work1" class="radio-input" checked>
+                                <span>아니오</span>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>지난주에, 함께 사는 가족의 사업체 또는 농장에서 보수를 받지 않고 1시간 이상 일하였습니까?</td>
+                        <td>
+                            <label class="radio-label">
+                                <input type="radio" name="work2" class="radio-input">
+                                <span>예</span>
+                            </label>
+                        </td>
+                        <td>
+                            <label class="radio-label">
+                                <input type="radio" name="work2" class="radio-input" checked>
+                                <span>아니오</span>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>지난주에 일을 하지는 않았지만 직장(일)을 가지고 있었습니까?</td>
+                        <td>
+                            <label class="radio-label">
+                                <input type="radio" name="work3" class="radio-input">
+                                <span>예</span>
+                            </label>
+                        </td>
+                        <td>
+                            <label class="radio-label">
+                                <input type="radio" name="work3" class="radio-input" checked>
+                                <span>아니오</span>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>지난 4주내에 직장(일을) 구해 보았습니까?</td>
+                        <td>
+                            <label class="radio-label">
+                                <input type="radio" name="work4" class="radio-input">
+                                <span>예</span>
+                            </label>
+                        </td>
+                        <td>
+                            <label class="radio-label">
+                                <input type="radio" name="work4" class="radio-input" checked>
+                                <span>아니오</span>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>지난주에 직장(일)을 원하였습니까?</td>
+                        <td>
+                            <label class="radio-label">
+                                <input type="radio" name="work5" class="radio-input">
+                                <span>예</span>
+                            </label>
+                        </td>
+                        <td>
+                            <label class="radio-label">
+                                <input type="radio" name="work5" class="radio-input" checked>
+                                <span>아니오</span>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>지난주에 주로 무엇을 하였습니까?</strong></td>
+                        <td colspan="2">
+                          <div id="rest-option" onclick="showComments()">
+                                "쉬었음"
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="next-section">
+        <h2>추가 질문 섹션</h2>
+        <p>쉬었음을 선택하셨습니다. 아래 질문에 답변해 주세요.</p>
+    </div>
+
+          
+    <script>
+      // Progress bar update
+      window.addEventListener('scroll', () => {
+          const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          document.querySelector('.progress-bar').style.width = scrolled + '%';
+      });
+
+      const comments = [
+          {
+              text: "머야 그냥 백수자나...청년지원이다 머다 지원 아무것도 해주지 마세요.",
+              likes: 1
+          },
+          {
+              text: "먹고 놀면서 쓰레기 같은 유튜브나 보고 기술직은 외국 노동자들이 다하고 한국 청년들은 어무기술도 필요없는 택배나 하고 나라 꼬라지 잘 돌아간다 통신비 경감대책 같은 소리하고 있네",
+              likes: 4
+          },
+          {
+              text: "쉬었음이 아니고 놀았음.",
+              likes: 14,
+              highlight: true
+          },
+          {
+              text: "청년들한테 너무 머라하지 마라. 가슴에 손을 얹고 생각해봐라. 노가다 하는 아저씨들 보고, 자식들에게는 저렇게 거지처럼 살지마라 하지 않았니?! 공무원도 못하면 뭐하냐지 않았니? 직업의 귀천을 누가만들었냐?!",
+              likes: 117
+          },
+          {
+              text: "원하는 직장때문이 아니라 능력이 없는 것.. 그거에 지원금이랍시고 퍼주고 부모 옆에서 캥거루마냥 붙어서 등골 빼먹으니 일 할 의지마저도 사라지는거다.. 인생 금방 간다 나이먹고 폐지 주울때 돼서 후회말고 뭐라도 해라",
+              likes: 1,
+              highlight: true
+          },
+          {
+              text: "원하는 일자리가 없어서 쉬었다니 ㅡ.ㅡ 원하지도 않는 일자리라도 일하면서 좋은 자리 알아보면 될 것을 일하기는 싫고 청년 지원 많이 해주고 부모님 등골 빼먹으니 일 안해도 먹고 살만하고 생각 자체가 문제에요",
+              likes: 21,
+              highlight: true
+          }
+      ];
+      
+      function showComments() {
+    const container = document.querySelector('.container');
+    
+    // 현재 설문 페이지 페이드아웃
+    container.style.opacity = '0';
+    container.style.transform = 'translateY(-20px)';
+    
+    setTimeout(() => {
+        container.style.display = 'none';
+        
+        // 댓글 섹션 추가 및 표시
+        const commentsSection = document.createElement('div');
+        commentsSection.id = 'comments-section';
+        document.body.appendChild(commentsSection);
+        
+        // 댓글들 순차적으로 추가
+        comments.forEach((comment, index) => {
+            setTimeout(() => {
+                const commentBox = createCommentBox(comment);
+                commentsSection.appendChild(commentBox);
+                setTimeout(() => {
+                    commentBox.classList.add('visible');
+                }, 50);
+
+                // 마지막 댓글이 표시된 후 기사 인트로 추가
+                if (index === comments.length - 1) {
+                    setTimeout(() => {
+                        const articleIntro = document.createElement('div');
+                        articleIntro.className = 'article-intro';
+                        articleIntro.innerHTML = `
+                            <h2 class="article-title">'쉬는 청년',<br>잘못된 걸까?</h2>
+                            <div class="divider"></div>
+                            <p class="article-subtitle">2024년 대한민국에서 '쉬는 청년'을 바라보는 사회적 시선</p>
+                            
+                            <div class="article-meta">
+                                <span>by 정세진</span>
+                                <span>•</span>
+                                <span>2024년 11월 25일</span>
+                            </div>
+
+                            <div class="stats-container">
+                                <div class="stat-item">
+                                    <div class="stat-number">0%</div>
+                                    <div class="stat-label">청년 고용률 증가</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">24년</div>
+                                    <div class="stat-label">청년 취업난 지속</div>
+                                </div>
+                            </div>
+
+                            <div class="highlight-box">
+                                <p>2024년 청년의 첫 직장을 갖기까지 걸리는 시간 평균 0년. 청년 고용률은 작년 대비 0% 하락했습니다. 올해의 답화 비교하면서 간극 강조.</p>
+                                <p>그러나 '오늘 취업하기 어렵다'는 진단은 정확하지 않습니다. 청년의 취업난이 어제오늘의 이야기가 아니기 때문입니다.</p>
+                            </div>
+                        `;
+                        commentsSection.appendChild(articleIntro);
+
+                        // articleIntro 다음에 sticky-container 추가
+                        const stickyContainer = document.createElement('div');
+                        stickyContainer.className = 'sticky-container';
+                        stickyContainer.innerHTML = `
+                           <div class="sticky-container">
+                                    <div class="article">
+                                      <img src="https://i.imgur.com/k5dTmX9.png" alt="Article 1">
+                                      </div>
+                                    <div class="article">
+                                      <img src="https://i.imgur.com/TC5F4S5.png" alt="Article 2">
+                                      </div>
+                                    <div class="article">
+                                      <img src="https://i.imgur.com/H6kpBIp.png" alt="Article 3">
+                                      </div>
+                                    <div class="article">
+                                      <img src="https://i.imgur.com/NJL3HYX.png" alt="Article 4">
+                                    </div>
+                                </div>
+                        `;
+                        commentsSection.appendChild(stickyContainer);
+
+                        setTimeout(() => {
+                            const articles = document.querySelectorAll('.article');
+                            
+                            function updateArticles() {
+                                const scrollHeight = window.scrollY;
+                                const windowHeight = window.innerHeight;
+                                const totalHeight = document.body.scrollHeight - windowHeight;
+                                const scrollProgress = scrollHeight / totalHeight;
+
+                                articles.forEach((article, index) => {
+                                    const threshold = (index + 1) / articles.length;
+                                    if (scrollProgress >= threshold) {
+                                        article.classList.add('visible');
+                                    } else {
+                                        article.classList.remove('visible');
+                                    }
+                                });
+                            }
+
+                            // Initial check
+                            updateArticles();
+
+                            // Event listeners
+                            window.addEventListener('scroll', () => {
+                                requestAnimationFrame(updateArticles);
+                            });
+                            window.addEventListener('resize', updateArticles);
+
+                            // articleIntro 페이드인
+                            articleIntro.style.opacity = '1';
+                            articleIntro.style.transform = 'translateY(0)';
+                        }, 1000);
+
+                    }, 500);
+                }
+            }, index * 200);
+        });
+    }, 500);
+
+    // 인디케이터 도트 업데이트
+    document.querySelectorAll('.indicator-dot').forEach((dot, index) => {
+        dot.classList.toggle('active', index === 1);
+    });
+}
+
+    // 인디케이터 도트 업데이트
+    document.querySelectorAll('.indicator-dot').forEach((dot, index) => {
+        dot.classList.toggle('active', index === 1);
+    });
+
+          // 인디케이터 도트 업데이트
+          document.querySelectorAll('.indicator-dot').forEach((dot, index) => {
+              dot.classList.toggle('active', index === 1);
+          });
+
+      function createCommentBox(comment) {
+          const box = document.createElement('div');
+          box.className = 'comment-box';
+          const text = comment.highlight ? 
+              `<span class="highlight">${comment.text}</span>` : 
+              comment.text;
+          box.innerHTML = `
+              <div class="profile-picture"></div>
+              <div class="comment-content">
+                  <p>${text}</p>
+                  <p class="comment-source">Comment / ${comment.likes} Likes</p>
+              </div>
+          `;
+          return box;
+      }
+
+      // Radio button animation
+      document.querySelectorAll('.radio-input').forEach(radio => {
+          radio.addEventListener('change', function() {
+              this.classList.add('checked');
+          });
+      });
+  </script>
+</body>
+</html>
